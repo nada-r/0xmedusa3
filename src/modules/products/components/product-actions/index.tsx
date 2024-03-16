@@ -14,6 +14,7 @@ import OptionSelect from "@modules/products/components/option-select"
 
 import MobileActions from "../mobile-actions"
 import ProductPrice from "../product-price"
+import { IDKitWidget, VerificationLevel } from '@worldcoin/idkit'
 
 type ProductActionsProps = {
   product: PricedProduct
@@ -129,8 +130,33 @@ export default function ProductActions({
     setIsHuman(true)
   }
 
+  // TODO: Calls your implemented server route
+const verifyProof = async (proof) => {
+  throw new Error("TODO: verify proof server route")
+};
+
+// TODO: Functionality after verifying
+const onSuccess = () => {
+  console.log("Success")
+};
+
   return (
     <>
+    <IDKitWidget
+    app_id="app_c7e5d4b63c67526e8d1b437b245aae86"
+    action="proof-of-humanity"
+    false
+    verification_level={VerificationLevel.Device}
+    handleVerify={verifyProof}
+    onSuccess={onSuccess}>
+    {({ open }) => (
+      <button
+        onClick={open}
+      >
+        Verify with World ID
+      </button>
+    )}
+</IDKitWidget>
       <div className="flex flex-col gap-y-2" ref={actionsRef}>
         <div>
           {product.variants.length > 1 && (
