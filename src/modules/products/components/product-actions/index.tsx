@@ -15,6 +15,7 @@ import OptionSelect from "@modules/products/components/option-select"
 import MobileActions from "../mobile-actions"
 import ProductPrice from "../product-price"
 import { IDKitWidget, VerificationLevel } from '@worldcoin/idkit'
+import type { ISuccessResult } from "@worldcoin/idkit";
 
 type ProductActionsProps = {
   product: PricedProduct
@@ -132,8 +133,18 @@ export default function ProductActions({
 
   // TODO: Calls your implemented server route
 const verifyProof = async (proof) => {
-  throw new Error("TODO: verify proof server route")
+  const res = await fetch("https://widcloud-j3u1hxm0l-nadar.vercel.app/api/verify", { // route to your backend will depend on implementation
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify(proof),
+  })
+  if (!res.ok) {
+      throw new Error("Verification failed."); // IDKit will display the error message to the user in the modal
+  }
 };
+
 
 // TODO: Functionality after verifying
 const onSuccess = () => {
